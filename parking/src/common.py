@@ -1,49 +1,22 @@
-class NoSpaceLeftInParking(Exception):
-    '''Exception for no space left in the parking.'''
-    pass
-
-class CarWithSameNumExist(Exception):
-    '''Exception if car is already parked with the same number.'''
-    pass
-
-class LocationEmpty(Exception):
-    '''Exception if user tries to remove a parking slot which is not occupied.'''
-    pass
-
-class NoCarFound(Exception):
-    '''Exception if there is no car with the name specified.'''
-    pass
-	
-class InvalidTariff(Exception):
-    '''Exception if user selects invalid tariff plan.'''
-    pass
-	
-class NoCarstoDisplay(Exception):
-    '''Exception if there are no cars exists in the parking.'''
-    pass
-	
-class LevelWithTheSameName(Exception):
-    '''Exception while creating a new level.
-	   throws an exception if there is a level with the same name exist'''
-    pass
-	
-class TariffPlanDoesntExist(Exception):
-    '''Exception if there is no tariffPlan defined.'''
-    pass
-	
-class MultipleCarsWithSameLocation(Exception):
-    '''Exception if database shows multiple cars with the same location spot'''
-    pass
-	
-class ParkingLevelDoesntExist(Exception):
-    '''Exception if there is no Parking level exist in the station.'''
-    pass
+		
+class CustomException(Exception):
+    # Constructor or Initializer 
+    def __init__(self, value):
+        self.value = parkingExceptionsDict[value]
+  
+    # __str__ is to print() the value 
+    def __str__(self):
+        return repr(self.value)
 	
 parkingExceptionsDict = {
              "NoSpaceLeftInParking"  : { "status" : "Error",
 			                             "code"   : 404,
 			                              "Reason" : "No Space left in the parking."
 							           },
+			  "FailedCreateParkingLevel" : { "status" : "Error",
+			                             "code"   : 400,
+										 "Reason" : "Unable to create Parking Level"
+										},
 			  "CarWithSameNumExist" : { "status" : "Error",
 			                            "code"   : 404,
 			                             "Reason" : "Car with same number already exist in the parking."
@@ -54,7 +27,7 @@ parkingExceptionsDict = {
 									   },
 			  "NoCarFound"          :  { "status" : "Error",
 			                             "code"   : 404,
-			                             "Reason" : "No cars found in the parking. Parking is empty."
+			                             "Reason" : "No cars found in the specified location. Parking slot is empty."
 										},
 			  "InvalidTariff"        :  { "status" : "Error",
                                           "code"   : 400,
@@ -70,6 +43,10 @@ parkingExceptionsDict = {
 				"TariffPlanDoesntExist" : {"status" : "Error",
                                             "code"   : 404,
 				                           "Error"  : "Tariff Plan is not yet defined in the database."
+				                        },
+				"TariffPlanAlreadyExist" : {"status" : "Error",
+                                            "code"   : 404,
+				                           "Error"  : "Tariff Plan already exist with in the database."
 				                        },
 	  "MultipleCarsWithSameLocation" : { "status" : "Error",
 				                         "Error" : "Multiple cars are assigned with same location Number."

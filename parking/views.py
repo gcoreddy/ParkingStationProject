@@ -7,7 +7,7 @@ from django.http import JsonResponse
 class parkingRestAPI():
     def __init__(self):
         self.pstation = ParkingStation()
-
+ 
     # For rest api invocation.
     def addCar(self,request):
         try:
@@ -38,16 +38,19 @@ def getQuery(request):
     if request.method == 'GET':
         return render(request, 'index.html', {})
     elif request.method == 'POST':
-        if request.POST['OPTION'] == "1":
-            output = Ticket.createOrUpdateTariff(request.POST['plan'],request.POST['cost'],request.POST['freetime'])
+        if request.POST['OPTION'] == "create_tariff_plan":
+            output = Ticket.create_tariff(request.POST['plan'],request.POST['cost'],request.POST['freetime'])
+            return JsonResponse(dict(output),safe=False)
+        elif request.POST['OPTION'] == "update_tariff_plan":
+            output = Ticket.update_tariff(request.POST['plan'],request.POST['cost'],request.POST['freetime'])
             return JsonResponse(output,safe=False)
-        elif request.POST['OPTION'] == "2":
+        elif request.POST['OPTION'] == "add_car":
             return JsonResponse(pstation.addCar(request.POST['car_num'],request.POST['tariff_plan']),safe=False)
-        elif request.POST['OPTION'] == "3":
+        elif request.POST['OPTION'] == "remove_car":
             return JsonResponse(pstation.removeCar(request.POST['location']),safe=False)
-        elif request.POST['OPTION'] == "4":
+        elif request.POST['OPTION'] == "display_car":
             return JsonResponse(pstation.displayCars(),safe=False)
-        elif request.POST['OPTION'] == "5":
+        elif request.POST['OPTION'] == "add_level":
             return JsonResponse(pstation.addLevel(request.POST['level_name'],request.POST['parking_spots']),safe=False)
     else:
         print(request.POST['OPTION'])

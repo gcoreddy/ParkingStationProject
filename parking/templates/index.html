@@ -104,7 +104,7 @@ function showHide(elem) {
 			divsO[i].style.display = 'none';
 		}
 		//unhide the selected div
-		document.getElementById('div'+elem.value).style.display = 'block';
+		document.getElementById(elem.value).style.display = 'block';
 	} else {
 		//hide the divs
 		for(var i=0; i < divsO.length; i++) {
@@ -128,14 +128,15 @@ window.onload=function() {
 	{% csrf_token %}
 	<select name="OPTION" onchange="showHide(this)">
 		<option>Select option</option>
-	   	<option value="1">update_tariff</option>
-		<option value="2">addCar</option>
-		<option value="3">removeCar</option>
-		<option value="4">displayCar</option>
-		<option value="5">addParkingLevel</option>
+	   	<option value="create_tariff_plan">create_tariff_plan</option>
+		<option value="add_car">addCar</option>
+		<option value="remove_car">removeCar</option>
+		<option value="display_car">displayCar</option>
+		<option value="add_level">addParkingLevel</option>
+		<option value="update_tariff_plan">update_tariff_plan</option>
 	</select>
 	<br></br><br></br>
-	<div id="div1">
+	<div id="update_tariff_plan">
 		<ul>
 			<li>
                    <select name="plan">
@@ -145,17 +146,37 @@ window.onload=function() {
   
 			</li>
 			<li>
-					<input type="number" min="1" max="1000" name="cost" class="field-style field-split align-left" placeholder="Cost per plan."/>
+					<input type="number" min="1" max="1000" name="cost" step="0.01" class="field-style field-split align-left" placeholder="Cost per plan."/>
 			</li>
 			<li>
-					<input type="number" min="1" max="100" name="freetime" class="field-style field-split align-left" placeholder="Free time per plan in Minutes"/>
+					<input type="number" min="1" max="100" name="freetime" step="0.01" class="field-style field-split align-left" placeholder="Free time per plan in Minutes"/>
 			</li>
 			<li>
 				<input type="submit" value="Submit" />
 			</li>
 		</ul>
 	</div>
-	<div id="div2">
+    <div id="create_tariff_plan">
+		<ul>
+			<li>
+                   <select name="plan">
+                   <option value="Hourly">Hourly</option>
+                   <option value="Daily">Daily</option>
+                   </select>
+  
+			</li>
+			<li>
+					<input type="number" min="1" max="1000" name="cost" step="0.01" class="field-style field-split align-left" placeholder="Cost per plan."/>
+			</li>
+			<li>
+					<input type="number" min="1" max="100" name="freetime" step="0.01" class="field-style field-split align-left" placeholder="Free time per plan in Minutes"/>
+			</li>
+			<li>
+				<input type="submit" value="Submit" />
+			</li>
+		</ul>
+	</div>
+	<div id="add_car">
 		<ul>
 			<li>
 			<input type="text" name="car_num" maxlength="20" class="field-style field-split align-left" placeholder="Car number to park"><br>
@@ -172,7 +193,7 @@ window.onload=function() {
 			</li>
 		</ul>
 	</div>
-	<div id="div3">
+	<div id="remove_car">
 		<ul>
 			<li>
 				<input type="text" maxlength="20" class="field-style field-split align-left" name="location" placeholder="Car location to be removed"><br>
@@ -182,14 +203,14 @@ window.onload=function() {
 			</li>
 		</ul>
 	</div>
-	<div id="div4">
+	<div id="display_car">
 		<ul>
 			<li>
 				<input type="submit" value="Submit" />
 			</li>
 		</ul>
 	</div>
-	<div id="div5">
+	<div id="add_level">
 		<ul>
 			<li>
 				<input type="text" class="field-style field-split align-left" name="level_name" placeholder="Level name"><br>

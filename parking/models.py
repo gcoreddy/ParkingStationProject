@@ -3,16 +3,16 @@ from django.db import models as m
 from django.utils import timezone
 
 class TariffPlan(m.Model):
-	plan = m.CharField(max_length=10,primary_key=True)
-	cost = m.CharField(max_length=100, default=10)
-	freetime = m.CharField(max_length=100,default=15)
+	tariff_plan = m.CharField(max_length=10,primary_key=True)
+	cost = m.FloatField(max_length=100, default=10)
+	freetime = m.FloatField(max_length=100,default=15)
 	
 class carDataDetails(m.Model):
     carno = m.CharField(max_length=100,primary_key=True)
-    tariff_plan = m.CharField(max_length=100,default="Hourly")
-    inTime = m.CharField(max_length=100,default="")
-    location = m.CharField(max_length=100,default="")
-    outTime = m.CharField(max_length=100,default="")
+    tariff_plan = m.ForeignKey(TariffPlan, on_delete=m.CASCADE)
+    inTime = m.FloatField(max_length=100,default=0)
+    location = m.CharField(max_length=100,default='')
+    outTime = m.FloatField(max_length=100,default=0)
 	
 class ParkingLevel(m.Model):
     level_num = m.CharField(max_length=50,primary_key=True)
