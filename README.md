@@ -61,9 +61,35 @@ How to performs Admin tasks:
 
 Rest API Implementation:
 =========================
-Rest api is implemented in Model-View-Model Architecture using Django.
-Model–view–viewmodel (MVVM) is a software architectural pattern that facilitates the separation of the development of the graphical user interface (the view) – be it via a markup language or GUI code – from the development of the business logic or back-end logic (the model) so that the view is not dependent on any specific model platform. The view model of MVVM is a value converter,[1] meaning the view model is responsible for exposing (converting) the data objects from the model in such a way that objects are easily managed and presented. In this respect, the view model is more model than view, and handles most if not all of the view's display logic.[1] The view model may implement a mediator pattern, organizing access to the back-end logic around the set of use cases supported by the view.
+1. Rest api is implemented in Model-View-Model Architecture using Django.
+
 There are 3 options provided for rest api.
+=======
+How to Use through web api:
+============================
+Open the link in browser. Multiple options will be available to select.
+
+1. update_tariff - is useful to add or update any tariff plan (This will be enabled only for admin user. Normal user can't perform this operation.).
+
+2. addCar --- is useful to add a car to the parking slot. After addition generates a ticket with the details.
+
+3. removeCar ---- this is useful to unassign spot for a car and generate ticket with cost. 4 .displayCars ----- Displays list of cars parked.
+4. addLevel --- This option enables the user to expand the parking levels (This option will be privided only to the admin users.)
+
+How to performs Admin tasks:
+============================
+
+Admin page can be accessed by calling http://ip:port/admin and we have to provide superuser credentials we created. 
+After login it shows the database models we define in the models.py. 
+We can add modify or delete the info of any model exist in the database. We can create and delete users etc. Using this we can perform any admin task related to the application.
+
+How to use through rest api:
+==============================
+There are 3 GET operations provided for rest api.
+
+1. add
+2. remove
+3. list
 
 Add car rest api invocation:
 ============================
