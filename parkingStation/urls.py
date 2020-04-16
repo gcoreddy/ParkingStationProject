@@ -7,7 +7,7 @@ prestApi = parkingRestAPI()
 
 urlpatterns = [
     url('^$', getQuery, name='getQuery'),
-    url(r'^admin/',admin.site.urls),
+    url(r'^admin/', admin.site.urls),
     url(r'^add$', prestApi.addCar, name='addCar'),
     url(r'^remove$', prestApi.removeCar, name='removeCar'),
     url(r'^list$', prestApi.displayCars, name='displayCars'),
