@@ -7,6 +7,7 @@ class CustomException(Exception):
     def __str__(self):
         return repr(self.value)
 
+
 parkingExceptionsDict = {
     "NoSpaceLeftInParking": {
                              "status": "Error",
@@ -75,5 +76,21 @@ parkingExceptionsDict = {
                         "status": "Error",
                         "code": 400,
                         "Error":  "Unexpected error occured"
-                       }
+                       },
+    "NoLocationProvided": {
+                           "status": "Error",
+                           "status_code": 400,
+                           "code": 400,
+                           "Error":  "<location> should be provided as input."
+                          },
+    "NoCarNumProvided": {
+                        "status": "Error",
+                        "code": 400,
+                        "Error":  "<car_num> should be provided as input."
+                       },
+    "NoTariffPlanProvided": {
+                        "status": "Error",
+                        "code": 400,
+                        "Error":  "<tariff_plan> should be provided as input."
+                       },
     }

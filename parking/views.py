@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from parking.src.Ticket import Ticket
+from parking.src.common import CustomException
 from parking.src.parking import ParkingStation
 from django.http import JsonResponse
 
@@ -10,42 +11,32 @@ class parkingRestAPI():
 
     # For rest api invocation.
     def addCar(self, request):
-        try:
-            car_num = request.GET['car_num']
-            tariff_plan = request.GET['tariff_plan']
-        except:
-            responseDict = {
-                            "status": "error",
-                            "code": 400,
-                            "Reason": "<car_num> and <tariff_plan>\
-                                       should be provided."
-                           }
+        '''Adds a car to the parking lot.'''
+        car_num = request.GET.get('car_num')
+        tariff_plan = request.GET.get('tariff_plan')
+        if car_num is None:
+            # Throws CustomException when car num is not provided in input.
+            return JsonResponse(CustomException("NoCarNumProvided").value)
+        elif tariff_plan is None:
+            # Throws CustomException when tariff is not provided in input.
+            return JsonResponse(CustomException("NoTariffPlanProvided").value)
         else:
-            responseDict = self.pstation.addCar(car_num, tariff_plan)
-        return JsonResponse(responseDict, status=responseDict['code'],
-                            safe=False)
+            return JsonResponse(self.pstation.addCar(car_num, tariff_plan),
+                                safe=False)
 
     def removeCar(self, request):
-        try:
-            location = request.GET['location']
-        except:
-            responseDict = {
-                            "status": "error",
-                            "code": 400,
-                            "Reason": "<location> should be provided as input."
-                           }
+        '''Removes a car from a prking lot.'''
+        location = request.GET.get('location')
+        if location is None:
+            # Throws CustomException when location is not provided in input.
+            return JsonResponse(CustomException("NoLocationProvided").value)
         else:
-            responseDict = self.pstation.removeCar(location)
-        return JsonResponse(responseDict,
-                            status=responseDict['code'],
-                            safe=False)
+            # Removes a car and un assignes the parking lot.
+            return JsonResponse(self.pstation.removeCar(location),safe=False)
 
     def displayCars(self, request):
-        responseDict = self.pstation.displayCars()
-        return JsonResponse(self.pstation.displayCars(),
-                            status=responseDict['code'],
-                            safe=False)
-
+        '''Returns a dictionary with cars parked.'''
+        return JsonResponse(self.pstation.displayCars(),safe=False)
 
 # For Web api invocation.
 def getQuery(request):
@@ -54,18 +45,18 @@ def getQuery(request):
         return render(request, 'index.html', {})
     elif request.method == 'POST':
         if request.POST['OPTION'] == "create_tariff_plan":
-            output = Ticket.create_tariff(request.POST['plan'],
-                                          request.POST['cost'],
-                                          request.POST['freetime'])
+            output = Ticket.create_tariff(request.POST['plan'],request.POST['cost'],request.POST['freetime'])
             return JsonResponse(dict(output), safe=False)
         elif request.POST['OPTION'] == "update_tariff_plan":
-            output = Ticket.update_tariff(request.POST['plan'],
-                                          request.POST['cost'],
-                                          request.POST['freetime'])
+            output = Ticket.update_tariff(request.POST['plan_name'],
+                                          request.POST['plan_cost'],
+                                          request.POST['plan_freetime']
+                                         )
             return JsonResponse(output, safe=False)
         elif request.POST['OPTION'] == "add_car":
             return JsonResponse(pstation.addCar(request.POST['car_num'],
-                                                request.POST['tariff_plan']),
+                                                request.POST['tariff_plan']
+                                               ),
                                 safe=False)
         elif request.POST['OPTION'] == "remove_car":
             return JsonResponse(pstation.removeCar(request.POST['location']),
